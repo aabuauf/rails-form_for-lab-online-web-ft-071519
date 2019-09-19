@@ -1,3 +1,5 @@
+require 'pry'
+
 class SchoolclassesController < ApplicationController
   before_action :set_schoolClass, only: [:show, :edit, :update, :destroy]
 
@@ -24,41 +26,25 @@ class SchoolclassesController < ApplicationController
   # POST /schoolclasses
   # POST /schoolclasses.json
   def create
-    @schoolclass = SchoolClass.new(schoolclass_params)
-
-    respond_to do |format|
-      if @schoolclass.save
-        format.html { redirect_to @schoolclass, notice: 'SchoolClass was successfully created.' }
-        format.json { render :show, status: :created, location: @schoolclass }
-      else
-        format.html { render :new }
-        format.json { render json: @schoolclass.errors, status: :unprocessable_entity }
-      end
-    end
+    @schoolclass = SchoolClass.new
+    @schoolclass.title = params[:school_class][:title]
+    @schoolclass.room_number = params[:school_class][:room_number]
+    @schoolclass.save
+    
+  redirect_to schoolclass_path(@schoolclass)
   end
 
   # PATCH/PUT /schoolclasses/1
   # PATCH/PUT /schoolclasses/1.json
   def update
-    respond_to do |format|
-      if @schoolclass.update(schoolclass_params)
-        format.html { redirect_to @schoolclass, notice: 'SchoolClass was successfully updated.' }
-        format.json { render :show, status: :ok, location: @schoolclass }
-      else
-        format.html { render :edit }
-        format.json { render json: @schoolclass.errors, status: :unprocessable_entity }
-      end
-    end
+    
   end
 
   # DELETE /schoolclasses/1
   # DELETE /schoolclasses/1.json
   def destroy
     @schoolclass.destroy
-    respond_to do |format|
-      format.html { redirect_to schoolclasses_url, notice: 'SchoolClass was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    
   end
 
   private
